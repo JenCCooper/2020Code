@@ -9,13 +9,16 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
+//import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.commands.ArcadeDrive;
+//import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.command.Scheduler;
+//import frc.robot.commands.ArcadeDrive;
 import frc.robot.subsystems.DriveTrain;
-
+import frc.robot.subsystems.PID_Drive;
+/*import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;*/
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -27,11 +30,11 @@ public class Robot extends TimedRobot {
   public static DriveTrain driveTrain;
   public static OI m_oi;
   public static Joystick m_stick;
-  public ArcadeDrive m_ADrive;
-
+  public RobotMap map;
+  //public ArcadeDrive m_ADrive;
   //private final DifferentialDrive m_robotDrive = new DifferentialDrive(Left, Right);
-  private final Timer m_timer = new Timer();
-
+  //private final Timer m_timer = new Timer();
+  public PID_Drive piddrive = new PID_Drive(1, 1, 1);
   NetworkTable table;
 
   /**
@@ -40,20 +43,20 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    m_oi = new OI();
+    //m_oi = new OI();
     driveTrain = new DriveTrain();
     m_stick = new Joystick(RobotMap.m_stick);
-    m_ADrive = new ArcadeDrive();
+    //m_ADrive = new ArcadeDrive();
 
     
-    NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    table = inst.getTable("ChickenVision");
-    table = inst.getTable("Joystick");
+    //NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    //table = inst.getTable("ChickenVision");
+    //table = inst.getTable("Joystick");
   }
 
   @Override
   public void robotPeriodic() {
-    super.robotPeriodic();
+   // super.robotPeriodic();
   }
 
   @Override
@@ -63,7 +66,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    Scheduler.getInstance().run();
+    //Scheduler.getInstance().run();
   }
 
   /**
@@ -71,8 +74,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_timer.reset();
-    m_timer.start();
+    //m_timer.reset();
+    //m_timer.start();
 
   }
 
@@ -81,7 +84,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    Scheduler.getInstance().run(); 
+    //Scheduler.getInstance().run(); 
     // Drive for 2 seconds
     
   }
@@ -91,17 +94,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
-    m_timer.reset();
-    m_timer.start();
+    //m_timer.reset();
+    //m_timer.start();
 
   }
 
   /**
    * This function is called periodically during teleoperated mode.
    * 
-   * @return
+   * return
    */
-  double x_value;
+  //double x_value;
 
   public double constrain(double num) {
     if (num > 1) {
@@ -112,10 +115,15 @@ public class Robot extends TimedRobot {
     }
     return num;
   }
-
+  public double getAngle(double x, double y){
+    return Math.atan(x/y)/Math.PI;
+  }
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run();
+    //Scheduler.getInstance().run();
+    //piddrive.setSetpoint(getAngle(m_stick.getX(),m_stick.getY()));
+    DriveTrain.m_drive.arcadeDrive(m_stick.getY()-0.1,constrain(getAngle(m_stick.getX(),m_stick.getY())));
+    //piddrive.execute(m_stick.getY()-0.1);
     /*
     if (m_stick.getX() < 0.1 && m_stick.getX() > -0.1) {
       x_value = 0;
@@ -123,7 +131,7 @@ public class Robot extends TimedRobot {
       x_value = m_stick.getX();
     }
     */
-    m_ADrive.execute();
+    //m_ADrive.execute();
     //m_robotDrive.arcadeDrive(m_stick.getY(), x_value);
     //front_Left.set(ControlMode.PercentOutput, m_stick.getX());
     //back_Left.set(ControlMode.PercentOutput, m_stick.getY()+0.1);
