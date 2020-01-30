@@ -15,10 +15,23 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
+<<<<<<< Updated upstream
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
+=======
+//import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.command.Scheduler;
+//import frc.robot.commands.ArcadeDrive;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.JoystickController;
+import frc.robot.subsystems.PID_Drive;
+import frc.robot.subsystems.Shooter;
+/*import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;*/
+>>>>>>> Stashed changes
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -27,6 +40,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
+<<<<<<< Updated upstream
+=======
+  public static DriveTrain driveTrain;
+  public static OI m_oi;
+  public static Joystick m_stick;
+  public static Shooter shooter;
+  public RobotMap map;
+  //public ArcadeDrive m_ADrive;
+  //private final DifferentialDrive m_robotDrive = new DifferentialDrive(Left, Right);
+  //private final Timer m_timer = new Timer();
+  //public PID_Drive piddrive = new PID_Drive(1, 1, 1);
+  NetworkTable table;
+
+>>>>>>> Stashed changes
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -94,11 +121,30 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+<<<<<<< Updated upstream
     double speed = -contrain(joy.getRawAxis(1));
     double turn = contrain(joy.getRawAxis(0));
     
     Drive.arcadeDrive(speed, turn);
     testMotor.set(speed);
+=======
+    //Scheduler.getInstance().run();
+    //piddrive.setSetpoint(getAngle(m_stick.getX(),m_stick.getY()));
+    DriveTrain.m_drive.arcadeDrive(m_stick.getY()-0.1,constrain(getAngle(m_stick.getX(),m_stick.getY())));
+    //piddrive.execute(m_stick.getY()-0.1);
+    shooter.shoot(JoystickController.triggerP);
+    /*
+    if (m_stick.getX() < 0.1 && m_stick.getX() > -0.1) {
+      x_value = 0;
+    } else {
+      x_value = m_stick.getX();
+    }
+    */
+    //m_ADrive.execute();
+    //m_robotDrive.arcadeDrive(m_stick.getY(), x_value);
+    //front_Left.set(ControlMode.PercentOutput, m_stick.getX());
+    //back_Left.set(ControlMode.PercentOutput, m_stick.getY()+0.1);
+>>>>>>> Stashed changes
   }
 
   @Override
