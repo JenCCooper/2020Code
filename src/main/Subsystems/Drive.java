@@ -5,22 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package Drive;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 
-public class JoystickController extends SubsystemBase {
+public class Drive extends SubsystemBase {
   /**
-   * Creates a new JoystickController.
+   * Creates a new Drive.
    */
-  public static final double Y_Value = Robot.m_stick.getY();
-  public static final double X_Value = Robot.m_stick.getX();
-
-  public JoystickController() {
-/**
- * Add your docs here.
- */
+  public Drive() {
 
   }
 
